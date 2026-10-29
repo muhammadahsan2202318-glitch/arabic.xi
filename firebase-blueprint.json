@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Profil santri kelas 11 MA Darul Faqih Indonesia",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID pengguna autentikasi", "maxLength": 128 },
+        "displayName": { "type": "string", "description": "Nama lengkap santri", "maxLength": 100 },
+        "email": { "type": "string", "description": "Email santri", "maxLength": 150 },
+        "photoURL": { "type": "string", "description": "Foto profil santri", "maxLength": 500 },
+        "studentClass": { "type": "string", "description": "Kelas santri, misal XI MA 1 / XI MA 2", "maxLength": 50 },
+        "academicYear": { "type": "string", "description": "Tahun ajaran", "maxLength": 20 },
+        "bio": { "type": "string", "description": "Bio atau motto santri", "maxLength": 250 },
+        "createdAt": { "type": "string", "description": "Waktu pendaftaran akun" },
+        "updatedAt": { "type": "string", "description": "Waktu update terakhir" }
+      },
+      "required": ["userId", "displayName", "email"]
+    },
+    "UserProgress": {
+      "title": "UserProgress",
+      "description": "Progres penyelesaian materi bab santri",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID santri pemilik", "maxLength": 128 },
+        "chapterId": { "type": "string", "description": "ID bab pembelajaran", "maxLength": 50 },
+        "completedSections": { "type": "array", "description": "Daftar ID bagian materi yang telah selesai dibaca" },
+        "isCompleted": { "type": "boolean", "description": "Status tuntas bab" },
+        "lastAccessedAt": { "type": "string", "description": "Waktu akses terakhir" },
+        "updatedAt": { "type": "string", "description": "Waktu perbaruan" }
+      },
+      "required": ["userId", "chapterId"]
+    },
+    "QuizResult": {
+      "title": "QuizResult",
+      "description": "Hasil pengerjaan tes/kuis bab",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID santri pengerja", "maxLength": 128 },
+        "quizId": { "type": "string", "description": "ID tes/evaluasi", "maxLength": 50 },
+        "chapterId": { "type": "string", "description": "ID bab terkait", "maxLength": 50 },
+        "score": { "type": "number", "description": "Nilai capaian (0-100)" },
+        "totalQuestions": { "type": "number", "description": "Total butir soal" },
+        "correctAnswers": { "type": "number", "description": "Jumlah jawaban tepat" },
+        "passed": { "type": "boolean", "description": "Kelulusan KKM" },
+        "completedAt": { "type": "string", "description": "Waktu penyelesaian kuis" }
+      },
+      "required": ["userId", "quizId", "chapterId", "score"]
+    },
+    "SavedVocab": {
+      "title": "SavedVocab",
+      "description": "Kosakata mufradat yang ditandai bintang oleh santri",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID santri pemilik", "maxLength": 128 },
+        "vocabId": { "type": "string", "description": "ID kosakata", "maxLength": 50 },
+        "arabic": { "type": "string", "description": "Kata bahasa Arab", "maxLength": 100 },
+        "latin": { "type": "string", "description": "Transliterasi latin", "maxLength": 100 },
+        "meaning": { "type": "string", "description": "Arti dalam bahasa Indonesia", "maxLength": 200 },
+        "chapterId": { "type": "string", "description": "ID bab mufradat", "maxLength": 50 },
+        "savedAt": { "type": "string", "description": "Waktu ditambahkan ke hafalan" }
+      },
+      "required": ["userId", "vocabId", "arabic", "meaning"]
+    },
+    "StudyNote": {
+      "title": "StudyNote",
+      "description": "Catatan ringkas nahwu/materi dari santri",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID santri pemilik", "maxLength": 128 },
+        "noteId": { "type": "string", "description": "ID catatan", "maxLength": 50 },
+        "chapterId": { "type": "string", "description": "ID bab terkait", "maxLength": 50 },
+        "title": { "type": "string", "description": "Judul catatan", "maxLength": 150 },
+        "content": { "type": "string", "description": "Isi catatan santri", "maxLength": 2000 },
+        "createdAt": { "type": "string", "description": "Waktu dibuat" },
+        "updatedAt": { "type": "string", "description": "Waktu diubah" }
+      },
+      "required": ["userId", "noteId", "title", "content"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Profil dan setelan santri"
+    },
+    "/users/{userId}/progress/{chapterId}": {
+      "schema": { "$ref": "#/entities/UserProgress" },
+      "description": "Progres per bab belajar"
+    },
+    "/users/{userId}/quizResults/{quizResultId}": {
+      "schema": { "$ref": "#/entities/QuizResult" },
+      "description": "Rekapitulasi hasil evaluasi kuis santri"
+    },
+    "/users/{userId}/savedVocab/{vocabId}": {
+      "schema": { "$ref": "#/entities/SavedVocab" },
+      "description": "Daftar hafalan kosakata favorit"
+    },
+    "/users/{userId}/notes/{noteId}": {
+      "schema": { "$ref": "#/entities/StudyNote" },
+      "description": "Catatan belajar santri per materi"
+    }
+  }
+}

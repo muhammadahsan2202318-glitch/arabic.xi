@@ -1,0 +1,8 @@
+{
+  "name": "Bayan Darul Faqih - Bahasa Arab Kelas 11 MA",
+  "description": "Aplikasi Pembelajaran Bahasa Arab Interaktif Kelas 11 MA Darul Faqih Indonesia dengan login Google, data Firestore, materi kurikulum madrasah, dan AI Tutor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
